@@ -1,0 +1,458 @@
+<html>
+  <head>
+    <script src="assets/lib/gsap/gsap.min.js"></script>
+    <script src="assets/lib/gsap/MorphSVGPlugin.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"
+    />
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-database.js"></script>
+  </head>
+  <body>
+    <h1 class="loading">Downloading Hairstyles...</h1>
+    <!-- BAR CHART -->
+    <div id="bar">
+      <div class="icons">
+        <p>curliness</p>
+        <p>frizziness</p>
+        <p>volume</p>
+        <p>satisfaction</p>
+        <p>time</p>
+      </div>
+      <div class="vert"></div>
+      <div class="bars">
+        <div class="bar-container">
+          <div class="bar" id="cBar"></div>
+          <p id="cVal">2</p>
+        </div>
+        <div class="bar-container">
+          <div class="bar" id="fBar"></div>
+          <p id="fVal">4</p>
+        </div>
+        <div class="bar-container">
+          <div class="bar" id="vBar"></div>
+          <p id="vVal">5</p>
+        </div>
+        <div class="bar-container">
+          <div class="bar" id="hBar"></div>
+          <p id="hVal">1</p>
+        </div>
+        <div class="bar-container">
+          <div class="bar" id="tBar"></div>
+          <p id="tVal">1</p>
+        </div>
+      </div>
+    </div>
+    <!-- SLIDERS -->
+    <form>
+      <h1>Experiment!</h1>
+      <div class="slider-container">
+        <img src="assets/images/c.svg" alt="" />
+        <div id="cSlider" class="slider"></div>
+      </div>
+      <div class="slider-container">
+        <img src="assets/images/f.svg" alt="" />
+        <div id="fSlider" class="slider"></div>
+      </div>
+      <div class="slider-container">
+        <img src="assets/images/v.svg" alt="" />
+        <div id="vSlider" class="slider"></div>
+      </div>
+      <div class="slider-container">
+        <img src="assets/images/h.svg" alt="" />
+        <div id="hSlider" class="slider"></div>
+      </div>
+      <div class="slider-container">
+        <img src="assets/images/time.svg" alt="" />
+        <div id="tSlider" class="slider"></div>
+      </div>
+    </form>
+
+    <main>
+      <!-- HAIR -->
+      <div class="hair-container">
+        <svg
+          id="viewbox"
+          width="1000"
+          height="750"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <filter id="displacementFilter">
+            <feTurbulence
+              id="cFilter"
+              type="turbulence"
+              baseFrequency="0.05"
+              numOctaves="9"
+              result="turbulence"
+            />
+            <feDisplacementMap
+              id="fFilter"
+              in2="turbulence"
+              in="SourceGraphic"
+              scale="75"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+
+          <circle
+            id="circle"
+            cx="400"
+            cy="400"
+            r="225"
+            style="filter: url(#displacementFilter);"
+          />
+        </svg>
+      </div>
+
+      <!-- MOUTH -->
+      <div class="mouth-container">
+        <!-- <svg
+        class="mouth"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 173.92 62.8"
+      > -->
+        <svg
+          class="mouth"
+          xmlns="http://www.w3.org/2000/svg"
+          width="120"
+          height="60"
+          viewBox="105 -10 200 210"
+        >
+          <defs>
+            <style>
+              .cls-1 {
+                fill: none;
+                stroke: #020202;
+                stroke-linecap: round;
+                stroke-miterlimit: 10;
+                stroke-width: 30px;
+              }
+            </style>
+          </defs>
+          <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+              <path
+                id="mouth--sad"
+                class="cls-1"
+                d="M158.92,47.8c-3.7-4.26-29.46-32.88-72.13-32.8C44.32,15.08,18.73,43.52,15,47.8"
+              />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- LEFT EYE -->
+      <div class="left-eye-container eye-container">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="100"
+          height="50"
+          viewBox="-20 -20 440 220"
+          class="eye"
+        >
+          <defs>
+            <style>
+              .cls-1 {
+                fill: none;
+                stroke: #020202;
+                stroke-linecap: round;
+                stroke-miterlimit: 10;
+                stroke-width: 10px;
+              }
+            </style>
+          </defs>
+          <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+              <path
+                id="left-eye--sad"
+                class="cls-1"
+                d="M5,5C8.7,9.26,34.46,37.88,77.13,37.8,119.6,37.72,145.19,9.29,148.92,5"
+              />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- RIGHT EYE -->
+      <div class="right-eye-container eye-container">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="100"
+          height="50"
+          viewBox="-20 -20 440 220"
+          class="eye"
+        >
+          <defs>
+            <style>
+              .cls-1 {
+                fill: none;
+                stroke: #020202;
+                stroke-linecap: round;
+                stroke-miterlimit: 10;
+                stroke-width: 10px;
+              }
+            </style>
+          </defs>
+          <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
+              <path
+                id="right-eye--sad"
+                class="cls-1"
+                d="M5,5C8.7,9.26,34.46,37.88,77.13,37.8,119.6,37.72,145.19,9.29,148.92,5"
+              />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- BUST -->
+      <div class="bust-container">
+        <img class="bust" src="assets/images/bust.png" alt="" />
+      </div>
+    </main>
+
+    <!-- GSAP TARGETS -->
+    <div class="hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 173.92 62.8">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: none;
+              stroke: #020202;
+              stroke-linecap: round;
+              stroke-miterlimit: 10;
+              stroke-width: 30px;
+            }
+          </style>
+        </defs>
+        <g id="Layer_2" data-name="Layer 2">
+          <g id="Layer_1-2" data-name="Layer 1">
+            <path
+              id="mouth--happy"
+              class="cls-1"
+              d="M15,15c3.7,4.26,29.46,32.88,72.13,32.8,42.47-.08,68.06-28.51,71.79-32.8"
+            />
+          </g>
+        </g>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153.92 42.8">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: none;
+              stroke: #020202;
+              stroke-linecap: round;
+              stroke-miterlimit: 10;
+              stroke-width: 10px;
+            }
+          </style>
+        </defs>
+        <g id="Layer_2" data-name="Layer 2">
+          <g id="Layer_1-2" data-name="Layer 1">
+            <path
+              id="right-eye--happy"
+              class="cls-1"
+              d="M148.92,37.8C145.22,33.54,119.46,4.92,76.79,5,34.32,5.08,8.73,33.52,5,37.8"
+            />
+          </g>
+        </g>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153.92 42.8">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: none;
+              stroke: #020202;
+              stroke-linecap: round;
+              stroke-miterlimit: 10;
+              stroke-width: 10px;
+            }
+          </style>
+        </defs>
+        <g id="Layer_2" data-name="Layer 2">
+          <g id="Layer_1-2" data-name="Layer 1">
+            <path
+              id="left-eye--happy"
+              class="cls-1"
+              d="M148.92,37.8C145.22,33.54,119.46,4.92,76.79,5,34.32,5.08,8.73,33.52,5,37.8"
+            />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- TOP LEFT -->
+    <div class="title">
+      <img src="assets/images/title.svg" alt="" />
+    </div>
+
+    <!-- TOP RIGHT  -->
+    <div class="top-right">
+      <div class="icon" id="info">
+        <img src="assets/images/qm.svg" alt="" />
+      </div>
+      <div class="icon" id="stats">
+        <img src="assets/images/stats.svg" alt="" />
+      </div>
+      <div class="icon" id="average">
+        <img src="assets/images/scale.svg" alt="" />
+      </div>
+      <div class="icon" id="random">
+        <img src="assets/images/random.svg" alt="" />
+      </div>
+    </div>
+
+    <!-- ARROWS -->
+    <div class="arrow-container" id="right">
+      <img src="assets/images/r.svg" alt="" />
+    </div>
+    <div class="arrow-container" id="left">
+      <img src="assets/images/l.svg" alt="" />
+    </div>
+
+    <!-- TIMELINE -->
+    <div id="timeline">
+      <h1 id="timeline-title">Day 1</h1>
+    </div>
+
+    <!-- OVERLAY -->
+    <div id="overlay"></div>
+    <!-- INFO PANEL -->
+    <div id="info-modal" class="modal">
+      <div class="close" id="close-info">
+        <img src="assets/images/x.svg" alt="" />
+      </div>
+      <div class="content">
+        <h1>info</h1>
+        <p>
+          Welcome to my hair journal! This project is a snapshot of the exciting
+          life with curly hair :)
+        </p>
+        <p>
+          For the past 100 days I have recorded the state of my hair's volume,
+          curliness, and frizziness, as well as how happy I was with how it
+          looked. I hope you enjoy and have fun!
+        </p>
+        <p>P.S. You can press left and right keys to navigate :P</p>
+        <div class="legend">
+          <h1>legend</h1>
+          <div class="legend-container">
+            <div class="legend-chunk">
+              <div class="label">Curliness</div>
+              <img src="assets/images/c.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Frizziness</div>
+              <img src="assets/images/f.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Volume</div>
+              <img src="assets/images/v.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Satisfaction</div>
+              <img src="assets/images/h.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Day</div>
+              <img src="assets/images/time.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Count</div>
+              <img src="assets/images/count.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Info</div>
+              <img src="assets/images/info.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Average</div>
+              <img src="assets/images/scale.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Stats</div>
+              <img src="assets/images/stats.svg" alt="" />
+            </div>
+            <div class="legend-chunk">
+              <div class="label">Random</div>
+              <img src="assets/images/random.svg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- STATS PANEL -->
+    <div id="stats-modal" class="modal">
+      <div class="close" id="close-stats">
+        <img src="assets/images/x.svg" alt="" />
+      </div>
+      <div class="content">
+        <h1>stats</h1>
+        <div class="data-set">
+          <div class="plot scatter" id="vScatter">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/v.svg" alt="" />
+            <img class="x-label" src="assets/images/time.svg" alt="" />
+          </div>
+          <div class="plot bar-plot" id="vBar-plot">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/count.svg" alt="" />
+            <img class="x-label" src="assets/images/v.svg" alt="" />
+          </div>
+        </div>
+        <div class="data-set">
+          <div class="plot scatter" id="cScatter">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/c.svg" alt="" />
+            <img class="x-label" src="assets/images/time.svg" alt="" />
+          </div>
+          <div class="plot bar-plot" id="cBar-plot">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/count.svg" alt="" />
+            <img class="x-label" src="assets/images/c.svg" alt="" />
+          </div>
+        </div>
+        <div class="data-set">
+          <div class="plot scatter" id="fScatter">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/f.svg" alt="" />
+            <img class="x-label" src="assets/images/time.svg" alt="" />
+          </div>
+          <div class="plot bar-plot" id="fBar-plot">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/count.svg" alt="" />
+            <img class="x-label" src="assets/images/f.svg" alt="" />
+          </div>
+        </div>
+        <div class="data-set">
+          <div class="plot scatter" id="hScatter">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/h.svg" alt="" />
+            <img class="x-label" src="assets/images/time.svg" alt="" />
+          </div>
+          <div class="plot bar-plot" id="hBar-plot">
+            <div class="axis xAxis"></div>
+            <div class="axis yAxis"></div>
+            <img class="y-label" src="assets/images/count.svg" alt="" />
+            <img class="x-label" src="assets/images/h.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ENTRY -->
+    <script src="main.js"></script>
+  </body>
+</html>
